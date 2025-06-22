@@ -1,4 +1,14 @@
 
+- [目录结构](#目录结构)
+- [工程介绍](#工程介绍)
+- [如何运行本工程](#如何运行本工程)
+- [lib 目录下的静态库是怎么来的](#lib-目录下的静态库是怎么来的)
+- [CMakeLists 如何写](#cmakelists-如何写)
+- [为什么没有 main 函数程序也可以执行测试](#为什么没有-main-函数程序也可以执行测试)
+- [测试方法介绍](#测试方法介绍)
+- [为什么使用 Google Test 框架进行测试，自己写 main 函数不可以吗](#为什么使用-google-test-框架进行测试自己写-main-函数不可以吗)
+- [如何写测试用例及用例的范式命名法](#如何写测试用例及用例的范式命名法)
+
 ## 目录结构
 ```
 CAL_TEST
@@ -24,7 +34,13 @@ CAL_TEST
         test_by_sameLogic.cpp
 ```
 
-## 如何运行
+## 工程介绍
+
+类 Calculator 中有三个 public 方法：add、sub 和 div，分别实现加减和除法的功能，并为每个方法配套写了相关的单元测试用例，，覆盖了正负数加减和正常、除数为 0 时的除法场景。
+
+主要目的是介绍一下如何基于 Google Test 框架，为 src 源码写相应的单元测试用例。
+
+## 如何运行本工程
 
 1. Windows 环境、vscode
 2. 下载 vscode: https://code.visualstudio.com/Download
@@ -168,7 +184,7 @@ Running main() from D:\DownLoad\Compress\googletest-main\googletest-main\googlet
 ```
 
 ## lib 目录下的静态库是怎么来的
-1. GitHub，https://github.com/google/googletest，右上角 Code->Download ZIP 下载 Google Test 框架源码
+1. GitHub，https://github.com/google/googletest, 右上角 Code->Download ZIP 下载 Google Test 框架源码
 2. 打开 Google Test 项目，根目录应该是 googletest-main，mkdir 创建 build 目录并进入
 3. vscode 终端使用命令 `cmake -G "MinGW Makefiles" ..` 为 MinGW 环境生成构建文件 Makefila
 4. 使用命令 `mingw32-make` 解析和执行上一步骤生成的 Makefile 文件，编译并链接项目
@@ -179,7 +195,9 @@ Running main() from D:\DownLoad\Compress\googletest-main\googletest-main\googlet
 ## CMakeLists 如何写
 CMake 很重要，尤其是 CMakeLists 文件要能看懂，写的话建议交给 AI，不必花太多时间学习它，如果想系统学习可以看看罗里吧嗦的官方文档 https://cmake.org/cmake/help/latest/guide/tutorial/index.html 
 
-当前根目录下的 CMakeLists 是 AI 写的，基本上能看懂这个其它的也大差不差都是类似的步骤，关注一下如何将项目可执行文件与 Google Test 静态库链接
+当前根目录下的 CMakeLists 是 AI 写的，基本上能看懂这个其它的也大差不差都是类似的步骤，关注一下如何将项目可执行文件与 Google Test 静态库链接。
+
+另外进阶版，在大型项目中一般都会分层构建，根目录下一个 CMakeLists，src 和 test 下又有各自的 CMakeLists，方便梳理项目架构，后续工作中看代码的时候可以研究一下。
 
 ## 为什么没有 main 函数程序也可以执行测试
 因为 Google Test 提供了默认的 main 函数，在下载的 Google Test 源码 googletest/src/gtest_main.cc 文件中。如果用户没有主动提供 main 函数，就会默认使用 Google Test 提供。如果你需要在启动所有测试用例之前做一些事情，可以自己实现一个 main 函数。下面给出官方的 main:
@@ -192,7 +210,7 @@ GTEST_API_ int main(int argc, char **argv) {
 ```
 
 ## 测试方法介绍
-    在 test/ 路径下，基于 Google Test 框架，利用三种不同的测试套件对 src/calculator.cpp 进行了测试，分别是：：
+在 test/ 路径下，基于 Google Test 框架，利用三种不同的测试套件对 src/calculator.cpp 进行了测试，分别是：：
     - TEST   最基本的，孤立的测试用例
     - TEST_F 共享状态的测试，支持不同测试用例使用同一初始状态，比如 add、sub 和 测试共享同一个 calculator 对象
     - TEST_P 参数化测试，支持不同参数使用同一测试逻辑，比如共享 add、sub 和 div 测试
