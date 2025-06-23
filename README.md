@@ -38,3 +38,8 @@ Notes:
 - https://pages.cs.wisc.edu/~remzi/OSTEP/
 
 最经典的一本
+
+准备要学的 C++ 多线程编程指南：
+- https://livebook.manning.com/book/c-plus-plus-concurrency-in-action-second-edition/about-this-book/
+
+还不知道好不好
