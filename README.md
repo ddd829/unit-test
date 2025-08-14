@@ -43,3 +43,6 @@ Notes:
 - https://livebook.manning.com/book/c-plus-plus-concurrency-in-action-second-edition/about-this-book/
 
 还不知道好不好
+
+vim:
+- 真好用，沉迷 vim 敲代码的每一天
